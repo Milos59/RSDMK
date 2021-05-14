@@ -1,0 +1,53 @@
+/**
+ * @file main.c
+ * @brief upravljanje treptajima diode
+ * @author Milos Kolovic
+ * @date 13-5-2021
+ * @version 1.0
+ */
+
+#include "pulsing.h"
+#include "timer0.h"
+#include "../pin_driver/pin.h"
+
+/// Makro za selektovanje pina na koji je povezana dioda
+#define DIODE_PIN 5
+
+/// Makro za podesavanje periode u brzom rezimu treptanja
+#define FAST 200
+/// Makro za podesavanje periode u sporom rezimu treptanja
+#define SLOW 1000
+
+/// Makro za podesavanje broja brzih treptaja
+#define FAST_REPETITIONS 15
+/// Makro za podesavanje broja sporih treptaja
+#define SLOW_REPETITIONS 3
+
+/**
+ * main - funkcija koja implementiran glavni deo aplikacije
+ * @return Nema povratnu vrednost
+ */
+int main()
+{
+    // Inicijalizacija
+    pinInit(PORT_B, DIODE_PIN, OUTPUT);
+    timer0InteruptInit();
+
+    // Glavna petlja
+    while (1)
+    {
+        // Brzo treptanje
+    	pinPulsing(PORT_B, DIODE_PIN, FAST, FAST_REPETITIONS);
+
+    	// Sporo treptanje
+		pinPulsing(PORT_B, DIODE_PIN, SLOW, SLOW_REPETITIONS);
+
+        // Kraj
+        while (1)
+        ;
+
+    }
+
+    return 0;
+}
+
